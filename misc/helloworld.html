@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+    @author: Sourabh Daptardar
+    Hello world of pixel manipulation (converting a video to grayscale) in javascript
+    
+    Based on:
+   http://html5doctor.com/video-canvas-magic/   
+   http://beej.us/blog/2010/02/html5s-canvas-part-ii-pixel-manipulation/
+   http://craftymind.com/factory/html5video/CanvasVideo.html
+   http://www.barbafan.de/html5video
+-->
+<html>
+<head>
+    <title>Hello World</title>
+    <script>
+        "use strict";
+        
+        function dbg(msg) {
+                var randomnumber = Math.floor(Math.random() * 20), i;
+                document.getElementById("p1").innerHTML = "";
+                for (i = 0 ; i < randomnumber ; i = i + 1) {
+                    document.getElementById("p1").innerHTML += "*";
+                }
+                document.getElementById("p1").innerHTML += "    ";
+                document.getElementById("p1").innerHTML += msg;    
+            }
+            
+        var toGrayscale = function (inImageData, outImageData) {
+            for (var x = 0 ; x < inImageData.height ; x = x + 1) {
+                for (var y = 0 ; y < inImageData.width ; y = y + 1) {
+                    var offset = (x * inImageData.width + y) * 4,
+                        gval = parseInt(Number(0.3 * inImageData.data[offset + 0]  + 0.59 * inImageData.data[offset + 1] + 0.11 * inImageData.data[offset + 2]).toFixed(0), 10);
+                    outImageData.data[offset + 0] = gval;
+                    outImageData.data[offset + 1] = gval;
+                    outImageData.data[offset + 2] = gval;
+                    outImageData.data[offset + 3] = inImageData.data[offset + 3];
+                }
+            }
+        }; 
+        
+        var process = function () {
+            var videoSource = document.getElementById('idVideo'),
+                    canvasConv = document.getElementById('idCanvasConv'),
+                    canvasOutput = document.getElementById('idCanvasOutput');
+            canvasConv.getContext('2d').drawImage(videoSource, 0, 0);
+        
+            var inImageData = canvasConv.getContext('2d').getImageData(0, 0, canvasConv.width, canvasConv.height);
+            var ctx = canvasOutput.getContext('2d');
+            var outImageData = ctx.createImageData(canvasConv.width, canvasConv.height);
+            toGrayscale(inImageData, outImageData);
+            ctx.putImageData(outImageData,0,0);
+            // dbg(Number(outImageData.data[35]).toString());
+            
+        };
+        
+        
+        function V() {
+            setInterval("process()", 33);
+        }        
+                       
+    </script>
+    <style>   
+#idCanvasOutput {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 25%;
+    height: 25%;
+    border-style: dotted;
+}
+
+#idVideo {
+    position: absolute;
+    top: 70%;
+    left: 70%;
+    width: 25%;
+}
+
+#idCanvasConv {
+    position: absolute;
+    top: 40%;http://www.barbafan.de/html5video
+    left: 40%;
+    width: 25%;
+    height: 25%;
+    display: none;
+}
+
+#p1 {
+    position: absolute;
+    top: 90%;
+    left: 0%;
+}    
+    </style>
+</head>
+
+<body>
+
+<canvas id="idCanvasConv"></canvas>
+<canvas id="idCanvasOutput"></canvas>
+<video id="idVideo" controls="true" onplay="V();" >
+    <source src="videos/jungle.mp4" type="video/mp4" ></source>
+    <!-- <source src="unlimited_motion.mp4" type="video/mp4" ></source> -->
+</video>
+<p id="p1"><b>Hello World of video manipulation in javascript<b></p>
+
+
+</body>
+</html>
