@@ -48,7 +48,7 @@
             var ctx = canvasOutput.getContext('2d');
             var outImageData = ctx.createImageData(canvasConv.width, canvasConv.height);
             toGrayscale(inImageData, outImageData);
-            ctx.putImageData(outImageData,0,0);
+            ctx.putImageData(outImageData, 0, 0);
             // dbg(Number(outImageData.data[35]).toString());
             
         };
@@ -98,10 +98,10 @@
 <canvas id="idCanvasConv"></canvas>
 <canvas id="idCanvasOutput"></canvas>
 <video id="idVideo" controls="true" onplay="V();" >
-    <source src="http://videokhoj.googlecode.com/hg/videos/jungle.mp4" type="video/mp4" ></source>
+    <source src="http://videokhoj.googlecode.com/hg/videos/jungle.webm" type="video/webm" ></source>
     <!-- <source src="unlimited_motion.mp4" type="video/mp4" ></source> -->
 </video>
-<p id="p1"><b>Hello World of video manipulation in javascript<b></p>
+<p id="p1"><b>Hello World of video manipulation in javascript</b></p>
 
 
 </body>
